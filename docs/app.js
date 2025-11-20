@@ -26,8 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
   style.addEventListener('change', renderBadge);
   color.addEventListener('input', renderBadge);
   labelColor.addEventListener('input', renderBadge);
-  color.value = "#FFD700"; 
-
+  color.value = "#FFD700";
   renderBadge();
 
   const sendBtn = document.getElementById('send-btn');
@@ -37,27 +36,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const colorValue = color.value.replace('#', '');
     const labelColorValue = labelColor.value.replace('#', '');
 
-    fetch('https://visitor-badge-self.vercel.app/api/new-badge', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        style: styleValue,
-        color: colorValue,
-        labelColor: labelColorValue
+    const url = `https://visitor-badge-self.vercel.app/api/new-badge?style=${encodeURIComponent(styleValue)}&color=${encodeURIComponent(colorValue)}&labelColor=${encodeURIComponent(labelColorValue)}`;
+
+    badgeUrlDiv.textContent = 'Loading...';
+    badgeLinkDiv.textContent = '';
+    resultUrlSection.style.display = '';
+    resultLinkSection.style.display = 'none';
+
+    fetch(url, { method: 'GET' })
+      .then(res => {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.json();
       })
-    })
-    .then(res => res.json())
-    .then(data => {
-      badgeUrlDiv.textContent = data.badgeUrl || '';
-      badgeLinkDiv.textContent = data.markdown || '';
-      resultUrlSection.style.display = '';
-      resultLinkSection.style.display = '';
-    })
-    .catch(err => {
-      badgeUrlDiv.textContent = 'Error generating badge';
-      badgeLinkDiv.textContent = '';
-      resultUrlSection.style.display = '';
-      resultLinkSection.style.display = '';
-    });
+      .then(data => {
+        badgeUrlDiv.textContent = data.badgeUrl || '';
+        badgeLinkDiv.textContent = data.markdown || '';
+        resultUrlSection.style.display = '';
+        resultLinkSection.style.display = '';
+      })
+      .catch(err => {
+        badgeUrlDiv.textContent = 'Errore: ' + err.message;
+        badgeLinkDiv.textContent = '';
+        resultUrlSection.style.display = '';
+        resultLinkSection.style.display = '';
+      });
   });
 });
