@@ -1,8 +1,9 @@
 {
   "name": "visitor-badge-backend",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "index.js",
   "dependencies": {
-    "ioredis": "^5.8.2"
+    "ioredis": "^5.8.2",
+    "badge-maker": "^3.3.0"
   }
 }
