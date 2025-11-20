@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "https://stefanopaolonii.github.io/visitor-badge/",
+      "permanent": true
+    }
+  ]
+}
