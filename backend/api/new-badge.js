@@ -23,11 +23,12 @@ export default async function handler(req, res) {
     await redis.set(`counter:${key}`, 0);
 
     const baseUrl = process.env.BASE_URL ;
-    const badgeUrl = `${baseUrl}/api/view/${key}`;
-    const markdown = `![Visits](https://img.shields.io/endpoint?url=${badgeUrl})`;
+
+    const {style="flat", color="blue", labelColor="grey"} = req.body;
+    const badgeUrl = `${baseUrl}/api/badge/${key}?style=${style}&color=${color}&labelColor=${labelColor}`;
+    const markdown = `![Visits](${badgeUrl})`;
 
     res.status(200).json({
-        key,
         badgeUrl,
         markdown,
     });
