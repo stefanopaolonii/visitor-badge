@@ -24,7 +24,12 @@ export default async function handler(req, res) {
 
     const baseUrl = process.env.BASE_URL ;
 
-    const {style="flat", color="blue", labelColor="grey"} = req.body;
+    let body = req.body;
+    if (typeof body === "string") {
+        body = JSON.parse(body);
+    }
+
+    const { style = "flat", color = "blue", labelColor = "grey" } = body;
     const badgeUrl = `${baseUrl}/api/badge/${key}?style=${style}&color=${color}&labelColor=${labelColor}`;
     const markdown = `![Visits](${badgeUrl})`;
 
