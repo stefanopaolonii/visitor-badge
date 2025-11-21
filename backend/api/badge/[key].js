@@ -34,7 +34,7 @@ export default async function handler(req, res) {
     } catch (error) {
         svg = makeBadge({
             label: "error",
-            message: "internal error",
+            message: error.message ||"internal error",
             color: "red",
             labelColor,
             style
